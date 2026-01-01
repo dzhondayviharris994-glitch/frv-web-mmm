@@ -1,0 +1,435 @@
+<div id="movies" class="content-section">
+    <h2 class="section-header">Фильмы</h2>
+    <div class="titles-grid">
+      <a href="movie1.html" class="title-card">
+        <div class="title-name">Люди в чёрном</div>
+      </a>
+      <a href="movie2.html" class="title-card">
+        <div class="title-name">Люди в чёрном 2</div>
+      </a>
+      <a href="movie3.html" class="title-card">
+        <div class="title-name">Люди в чёрном 3</div>
+      </a>
+      <a href="movie4.html" class="title-card">
+        <div class="title-name">Люди в чёрном: Интернешнл</div>
+      </a>
+      <a href="movie5.html" class="title-card">
+        <div class="title-name">Железный человек</div>
+      </a>
+      <a href="movie6.html" class="title-card">
+        <div class="title-name">Железный человек 2</div>
+      </a>
+      <a href="movie7.html" class="title-card">
+        <div class="title-name">Железный человек 3</div>
+      </a>
+      <a href="movie8.html" class="title-card">
+        <div class="title-name">Мстители</div>
+      </a>
+      <a href="movie9.html" class="title-card">
+        <div class="title-name">Мстители: Эра Альтрона</div>
+      </a>
+      <a href="movie10.html" class="title-card">
+        <div class="title-name">Доктор Стрэндж</div>
+      </a>
+      <a href="movie11.html" class="title-card">
+        <div class="title-name">Человек-паук: Возвращение домой</div>
+      </a>
+      <a href="movie12.html" class="title-card">
+        <div class="title-name">Чёрная Пантера</div>
+      </a>
+      <a href="movie13.html" class="title-card">
+        <div class="title-name">Капитан Марвел</div>
+      </a>
+      <a href="movie14.html" class="title-card">
+        <div class="title-name">Мстители: Финал</div>
+      </a>
+      <a href="movie15.html" class="title-card">
+        <div class="title-name">Человек-паук: Вдали от дома</div>
+      </a>
+      <a href="movie16.html" class="title-card">
+        <div class="title-name">Человек-паук: Нет пути домой</div>
+      </a>
+      <a href="movie17.html" class="title-card">
+        <div class="title-name">Доктор Стрэндж: В мультивселенной безумия</div>
+      </a>
+      <a href="movie18.html" class="title-card">
+        <div class="title-name">Стражи Галактики</div>
+      </a>
+      <a href="movie19.html" class="title-card">
+        <div class="title-name">Стражи Галактики 2</div>
+      </a>
+      <a href="movie20.html" class="title-card">
+        <div class="title-name">Стражи Галактики 3</div>
+      </a>
+      <a href="movie21.html" class="title-card">
+        <div class="title-name">Дэдпул и Росомаха</div>
+      </a>
+      <a href="movie22.html" class="title-card">
+        <div class="title-name">Громовержцы*</div>
+      </a>
+      <a href="movie23.html" class="title-card">
+        <div class="title-name">Гарри Поттер и философский камень</div>
+      </a>
+      <a href="movie24.html" class="title-card">
+        <div class="title-name">Гарри Поттер и Тайная комната</div>
+      </a>
+      <a href="movie25.html" class="title-card">
+        <div class="title-name">Гарри Поттер и узник Азкабана</div>
+      </a>
+      <a href="movie26.html" class="title-card">
+        <div class="title-name">Гарри Поттер и Кубок огня</div>
+      </a>
+      <a href="movie27.html" class="title-card">
+        <div class="title-name">Гарри Поттер и Орден Феникса</div>
+      </a>
+      <a href="movie28.html" class="title-card">
+        <div class="title-name">Гарри Поттер и Принц-полукровка</div>
+      </a>
+      <a href="movie29.html" class="title-card">
+        <div class="title-name">Гарри Поттер и Дары смерти: Часть 1</div>
+      </a>
+      <a href="movie30.html" class="title-card">
+        <div class="title-name">Гарри Поттер и Дары смерти: Часть 2</div>
+      </a>
+      <a href="movie31.html" class="title-card">
+        <div class="title-name">Гарри Поттер 20 лет спустя: Возвращение в Хогвартс</div>
+      </a>
+      <a href="movie32.html" class="title-card">
+        <div class="title-name">Человек-паук: Через вселенные</div>
+      </a>
+      <a href="movie33.html" class="title-card">
+        <div class="title-name">Человек-паук: Паутина вселенных</div>
+      </a>
+      <a href="movie34.html" class="title-card">
+        <div class="title-name">Трансформеры</div>
+      </a>
+      <a href="movie35.html" class="title-card">
+        <div class="title-name">Трансформеры 2</div>
+      </a>
+      <a href="movie36.html" class="title-card">
+        <div class="title-name">Трансформеры 3</div>
+      </a>
+      <a href="movie37.html" class="title-card">
+        <div class="title-name">Трансформеры 4</div>
+      </a>
+      <a href="movie38.html" class="title-card">
+        <div class="title-name">Трансформеры 5</div>
+      </a>
+      <a href="movie39.html" class="title-card">
+        <div class="title-name">Трансформеры: Восхождение Звероботов</div>
+      </a>
+      <a href="movie40.html" class="title-card">
+        <div class="title-name">Бамблби</div>
+      </a>
+      <a href="movie41.html" class="title-card">
+        <div class="title-name">Ночь в музее</div>
+      </a>
+      <a href="movie42.html" class="title-card">
+        <div class="title-name">Фантастические твари и где они обитают</div>
+      </a>
+      <a href="movie43.html" class="title-card">
+        <div class="title-name">Пираты Карибского моря: Проклятие Чёрной жемчужины</div>
+      </a>
+      <a href="movie44.html" class="title-card">
+        <div class="title-name">Пираты Карибского моря: Сундук мертвеца</div>
+      </a>
+      <a href="movie45.html" class="title-card">
+        <div class="title-name">Пираты Карибского моря 3: На краю Света</div>
+      </a>
+      <a href="movie46.html" class="title-card">
+        <div class="title-name">Пираты Карибского моря: На странных берегах</div>
+      </a>
+      <a href="movie47.html" class="title-card">
+        <div class="title-name">Пираты Карибского моря: Мертвецы не рассказывают сказки</div>
+      </a>
+      <a href="movie48.html" class="title-card">
+        <div class="title-name">Назад в будущее</div>
+      </a>
+      <a href="movie49.html" class="title-card">
+        <div class="title-name">Назад в будущее 2</div>
+      </a>
+      <a href="movie50.html" class="title-card">
+        <div class="title-name">Шрэк</div>
+      </a>
+      <a href="movie51.html" class="title-card">
+        <div class="title-name">Шрэк 2</div>
+      </a>
+      <a href="movie52.html" class="title-card">
+        <div class="title-name">Шрэк 3</div>
+      </a>
+      <a href="movie53.html" class="title-card">
+        <div class="title-name">Шрэк 4</div>
+      </a>
+      <a href="movie54.html" class="title-card">
+        <div class="title-name">Майнкрафт в кино</div>
+      </a>
+      <a href="movie55.html" class="title-card">
+        <div class="title-name">Лысый нянька: Спецзадание</div>
+      </a>
+      <a href="movie56.html" class="title-card">
+        <div class="title-name">Дети шпионов</div>
+      </a>
+      <a href="movie57.html" class="title-card">
+        <div class="title-name">Соник в кино</div>
+      </a>
+      <a href="movie58.html" class="title-card">
+        <div class="title-name">Соник в кино 2</div>
+      </a>
+      <a href="movie59.html" class="title-card">
+        <div class="title-name">Соник в кино 3</div>
+      </a>
+      <a href="movie60.html" class="title-card">
+        <div class="title-name">Перси Джексон и похититель молний</div>
+      </a>
+      <a href="movie61.html" class="title-card">
+        <div class="title-name">Перси Джексон и Море чудовищ</div>
+      </a>
+      <a href="movie62.html" class="title-card">
+        <div class="title-name">Малефисента</div>
+      </a>
+      <a href="movie63.html" class="title-card">
+        <div class="title-name">Иллюзия обмана</div>
+      </a>
+      <a href="movie64.html" class="title-card">
+        <div class="title-name">Иллюзия обмана 2</div>
+      </a>
+      <a href="movie65.html" class="title-card">
+        <div class="title-name">1+1</div>
+      </a>
+      <a href="movie66.html" class="title-card">
+        <div class="title-name">Третий лишний</div>
+      </a>
+      <a href="movie67.html" class="title-card">
+        <div class="title-name">Зверополис</div>
+      </a>
+      <a href="movie68.html" class="title-card">
+        <div class="title-name">Зверопой</div>
+      </a>
+      <a href="movie69.html" class="title-card">
+        <div class="title-name">Алиса в Стране чудес (2025)</div>
+      </a>
+      <a href="movie70.html" class="title-card">
+        <div class="title-name">Тачки</div>
+      </a>
+      <a href="movie71.html" class="title-card">
+        <div class="title-name">Тачки 2</div>
+      </a>
+      <a href="movie72.html" class="title-card">
+        <div class="title-name">Тачки 3</div>
+      </a>
+      <a href="movie73.html" class="title-card">
+        <div class="title-name">Тайна Коко</div>
+      </a>
+      <a href="movie74.html" class="title-card">
+        <div class="title-name">Как приручить дракона</div>
+      </a>
+      <a href="movie75.html" class="title-card">
+        <div class="title-name">Как приручить дракона 2</div>
+      </a>
+      <a href="movie76.html" class="title-card">
+        <div class="title-name">Как приручить дракона 3</div>
+      </a>
+      <a href="movie77.html" class="title-card">
+        <div class="title-name">Монстры на каникулах</div>
+      </a>
+      <a href="movie78.html" class="title-card">
+        <div class="title-name">Монстры на каникулах 2</div>
+      </a>
+      <a href="movie79.html" class="title-card">
+        <div class="title-name">Монстры на каникулах 3</div>
+      </a>
+      <a href="movie80.html" class="title-card">
+        <div class="title-name">Монстры на каникулах 4</div>
+      </a>
+      <a href="movie81.html" class="title-card">
+        <div class="title-name">Холодное сердце</div>
+      </a>
+      <a href="movie82.html" class="title-card">
+        <div class="title-name">Пять ночей с Фредди</div>
+      </a>
+      <a href="movie83.html" class="title-card">
+        <div class="title-name">Пять ночей с Фредди 2</div>
+      </a>
+      <a href="movie84.html" class="title-card">
+        <div class="title-name">Аватар</div>
+      </a>
+      <a href="movie85.html" class="title-card">
+        <div class="title-name">Аватар: Путь воды</div>
+      </a>
+      <a href="movie86.html" class="title-card">
+        <div class="title-name">Аватар: Пламя и пепел</div>
+      </a>
+      <a href="movie87.html" class="title-card">
+        <div class="title-name">Аватар: Ещё не вышел</div>
+      </a>
+      <a href="movie88.html" class="title-card">
+        <div class="title-name">Бойцовский клуб</div>
+      </a>
+      <a href="movie89.html" class="title-card">
+        <div class="title-name">Субстанция</div>
+      </a>
+      <a href="movie90.html" class="title-card">
+        <div class="title-name">Волк с Уолл-стрит</div>
+      </a>
+      <a href="movie91.html" class="title-card">
+        <div class="title-name">Моана</div>
+      </a>
+      <a href="movie92.html" class="title-card">
+        <div class="title-name">Титаник</div>
+      </a>
+      <a href="movie93.html" class="title-card">
+        <div class="title-name">Холоп</div>
+      </a>
+      <a href="movie94.html" class="title-card">
+        <div class="title-name">Холоп 2</div>
+      </a>
+      <a href="movie95.html" class="title-card">
+        <div class="title-name">Батя</div>
+      </a>
+      <a href="movie96.html" class="title-card">
+        <div class="title-name">Батя 2. Дед</div>
+      </a>
+      <a href="movie97.html" class="title-card">
+        <div class="title-name">Иван Васильевич меняет профессию</div>
+      </a>
+      <a href="movie98.html" class="title-card">
+        <div class="title-name">Бриллиантовая рука</div>
+      </a>
+      <a href="movie99.html" class="title-card">
+        <div class="title-name">Кракен</div>
+      </a>
+      <a href="movie100.html" class="title-card">
+        <div class="title-name">Сто лет тому вперёд</div>
+      </a>
+      <a href="movie101.html" class="title-card">
+        <div class="title-name">Приключения Электроника</div>
+      </a>
+      <a href="movie102.html" class="title-card">
+        <div class="title-name">Лулу и Бриггс</div>
+      </a>
+      <a href="movie103.html" class="title-card">
+        <div class="title-name">Маска</div>
+      </a>
+      <a href="movie104.html" class="title-card">
+        <div class="title-name">Приключения Падингтона</div>
+      </a>
+      <a href="movie105.html" class="title-card">
+        <div class="title-name">Приключения Падингтона 2</div>
+      </a>
+      <a href="movie106.html" class="title-card">
+        <div class="title-name">Каратэ-пацан</div>
+      </a>
+      <a href="movie107.html" class="title-card">
+        <div class="title-name">Большой и добрый великан</div>
+      </a>
+      <a href="movie108.html" class="title-card">
+        <div class="title-name">Тролли</div>
+      </a>
+      <a href="movie109.html" class="title-card">
+        <div class="title-name">Тролли 2</div>
+      </a>
+      <a href="movie110.html" class="title-card">
+        <div class="title-name">Тролли 3</div>
+      </a>
+      <a href="movie111.html" class="title-card">
+        <div class="title-name">Чарли и шоколадная фабрика</div>
+      </a>
+      <a href="movie112.html" class="title-card">
+        <div class="title-name">Джуманджи</div>
+      </a>
+      <a href="movie113.html" class="title-card">
+        <div class="title-name">Кролик Питер</div>
+      </a>
+      <a href="movie114.html" class="title-card">
+        <div class="title-name">Кролик Питер 2</div>
+      </a>
+      <a href="movie115.html" class="title-card">
+        <div class="title-name">Покемон. Детектив Пикачу</div>
+      </a>
+      <a href="movie116.html" class="title-card">
+        <div class="title-name">Живая сталь</div>
+      </a>
+      <a href="movie117.html" class="title-card">
+        <div class="title-name">Рождественская история</div>
+      </a>
+      <a href="movie118.html" class="title-card">
+        <div class="title-name">Годзилла</div>
+      </a>
+      <a href="movie119.html" class="title-card">
+        <div class="title-name">Конг: Остров Черепа</div>
+      </a>
+      <a href="movie120.html" class="title-card">
+        <div class="title-name">Годзилла 2: Король монстра</div>
+      </a>
+      <a href="movie121.html" class="title-card">
+        <div class="title-name">Годзилла против Конга</div>
+      </a>
+      <a href="movie122.html" class="title-card">
+        <div class="title-name">Годзилла и конг: Новая империя</div>
+      </a>
+      <a href="movie123.html" class="title-card">
+        <div class="title-name">Оно</div>
+      </a>
+      <a href="movie124.html" class="title-card">
+        <div class="title-name">Оно 2</div>
+      </a>
+      <a href="movie125.html" class="title-card">
+        <div class="title-name">Первому игроку приготовиться</div>
+      </a>
+      <a href="movie126.html" class="title-card">
+        <div class="title-name">Веном</div>
+      </a>
+      <a href="movie127.html" class="title-card">
+        <div class="title-name">Веном 2</div>
+      </a>
+      <a href="movie128.html" class="title-card">
+        <div class="title-name">Веном 3</div>
+      </a>
+      <a href="movie129.html" class="title-card">
+        <div class="title-name">Дэдпул</div>
+      </a>
+      <a href="movie130.html" class="title-card">
+        <div class="title-name">Дэдпул 2</div>
+      </a>
+      <a href="movie131.html" class="title-card">
+        <div class="title-name">Война миров Z</div>
+      </a>
+      <a href="movie132.html" class="title-card">
+        <div class="title-name">Гадки я</div>
+      </a>
+      <a href="movie133.html" class="title-card">
+        <div class="title-name">Гадки я 2</div>
+      </a>
+      <a href="movie134.html" class="title-card">
+        <div class="title-name">Гадки я 3</div>
+      </a>
+      <a href="movie135.html" class="title-card">
+        <div class="title-name">Гадки я 4</div>
+      </a>
+      <a href="movie136.html" class="title-card">
+        <div class="title-name">RRR: Рядом Ревёт Революция</div>
+      </a>
+      <a href="movie137.html" class="title-card">
+        <div class="title-name">Шоу Трумана</div>
+      </a>
+      <a href="movie138.html" class="title-card">
+        <div class="title-name">Американский огурчик</div>
+      </a>
+      <a href="movie139.html" class="title-card">
+        <div class="title-name">Тихоокеанский рубеж</div>
+      </a>
+      <a href="movie140.html" class="title-card">
+        <div class="title-name">Тихоокеанский рубеж 2</div>
+      </a>
+      <a href="movie141.html" class="title-card">
+        <div class="title-name">Морбиус</div>
+      </a>
+    </div>
+  </div>
+
+
+
+   if (character.kawaii) {
+    modalContent.classList.add('kawaii');
+    createFloatingElements();
+  }

@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Сюжет - Моя Вселенная</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Rubik:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  :root {
+    --bg-primary: #0a0a12;
+    --bg-secondary: #14141f;
+    --bg-card: #1a1a28;
+    --bg-hover: #242437;
+    --accent-purple: #8b5cf6;
+    --accent-blue: #3b82f6;
+    --accent-pink: #ec4899;
+    --text-primary: #f3f4f6;
+    --text-secondary: #d1d5db;
+    --text-muted: #9ca3af;
+    --border: #2d2d42;
+    --shadow: rgba(0, 0, 0, 0.4);
+    --gradient: linear-gradient(135deg, #8b5cf6, #3b82f6, #ec4899);
+  }
+
+  body {
+    font-family: 'Rubik', 'Montserrat', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Градиентный фон */
+  .gradient-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    background:
+      radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.03) 0%, transparent 60%),
+      var(--bg-primary);
+    animation: gradientShift 20s ease infinite;
+  }
+
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* Текстура шума */
+  .noise-texture {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.02;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  /* Сетка */
+  .grid-pattern {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image:
+      linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  /* Заголовок */
+  header {
+    padding: 1.5rem 1rem;
+    text-align: center;
+    background: rgba(10, 10, 18, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .site-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.5rem;
+  }
+
+  .site-subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* Основной контейнер */
+  .main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 2rem;
+  }
+
+  /* Боковая панель - навигация по главам */
+  .sidebar {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 1.5rem;
+    height: fit-content;
+    position: sticky;
+    top: 6rem;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 32px var(--shadow);
+  }
+
+  .sidebar-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--accent-purple);
+  }
+
+  .chapters-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+  }
+
+  .chapters-list::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .chapters-list::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border-radius: 2px;
+  }
+
+  .chapters-list::-webkit-scrollbar-thumb {
+    background: var(--accent-purple);
+    border-radius: 2px;
+  }
+
+  .chapter-item {
+    padding: 0.75rem 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .chapter-item:hover {
+    background: var(--bg-hover);
+    border-color: var(--accent-purple);
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+  }
+
+  .chapter-item.active {
+    background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+  }
+
+  .chapter-number {
+    font-size: 0.85rem;
+    color: var(--accent-purple);
+    font-weight: 600;
+    min-width: 20px;
+  }
+
+  .chapter-item.active .chapter-number {
+    color: white;
+  }
+
+  /* Основной контент */
+  .content-area {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 2rem;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 32px var(--shadow);
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .chapter-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .chapter-title {
+    font-size: 2rem;
+    font-weight: 700;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+
+  .chapter-meta {
+    display: flex;
+    gap: 1.5rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .chapter-content {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+  }
+
+  .chapter-content p {
+    margin-bottom: 1.5rem;
+    text-align: justify;
+  }
+
+  /* Кнопка "Вернуться назад" */
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin: 2rem auto 0;
+    display: block;
+    width: fit-content;
+  }
+
+  .back-button:hover {
+    background: var(--bg-hover);
+    border-color: var(--accent-purple);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+  }
+
+  .back-button svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+  }
+
+  /* Футер */
+  .footer {
+    margin-top: 4rem;
+    padding: 2rem 1rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    border-top: 1px solid var(--border);
+    background: var(--bg-secondary);
+  }
+
+  .footer p {
+    margin-bottom: 0.5rem;
+  }
+
+  /* Декоративные элементы */
+  .floating-elements {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .floating-element {
+    position: absolute;
+    background: var(--gradient);
+    border-radius: 50%;
+    opacity: 0.1;
+    filter: blur(40px);
+    animation: float 20s infinite linear;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+      transform: translate(100px, 100px) rotate(90deg);
+    }
+    50% {
+      transform: translate(0, 200px) rotate(180deg);
+    }
+    75% {
+      transform: translate(-100px, 100px) rotate(270deg);
+    }
+  }
+
+  /* Адаптивность */
+  @media (max-width: 1024px) {
+    .main-container {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .sidebar {
+      position: static;
+      top: auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .main-container {
+      padding: 1rem;
+    }
+
+    .content-area {
+      padding: 1.5rem;
+    }
+
+    .chapter-title {
+      font-size: 1.5rem;
+    }
+
+    .chapters-list {
+      max-height: 400px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .site-title {
+      font-size: 1.4rem;
+    }
+
+    .content-area {
+      padding: 1.25rem;
+    }
+
+    .chapter-meta {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+
+  /* Специальные эффекты для текста */
+  .highlight {
+    background: linear-gradient(120deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2));
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+
+  /* Индикатор загрузки */
+  .loader {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+  }
+
+  .loader.active {
+    display: block;
+  }
+
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid transparent;
+    border-top: 3px solid var(--accent-purple);
+    border-right: 3px solid var(--accent-blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Градиентный фон -->
+<div class="gradient-bg"></div>
+
+<!-- Текстура шума -->
+<div class="noise-texture"></div>
+
+<!-- Сетка -->
+<div class="grid-pattern"></div>
+
+<!-- Плавающие элементы -->
+<div class="floating-elements" id="floatingElements"></div>
+
+<!-- Индикатор загрузки -->
+<div class="loader" id="loader">
+  <div class="spinner"></div>
+</div>
+
+<!-- Заголовок -->
+<header>
+  <div class="header-content">
+    <div class="site-title">Моя Вселенная</div>
+    <div class="site-subtitle"></div>
+  </div>
+</header>
+
+<!-- Основной контейнер -->
+<div class="main-container">
+  <!-- Боковая панель -->
+  <aside class="sidebar">
+    <h3 class="sidebar-title">Главы</h3>
+    <div class="chapters-list" id="chaptersList">
+      <!-- Главы будут добавлены через JS -->
+    </div>
+  </aside>
+
+  <!-- Основной контент -->
+  <main class="content-area">
+    <div class="chapter-header">
+      <h1 class="chapter-title" id="chapterTitle">Загрузка...</h1>
+      <div class="chapter-meta">
+        <span id="chapterNumber">Глава 1</span>
+        <span>•</span>
+        <span id="chapterDate">Дата публикации: скоро</span>
+      </div>
+    </div>
+
+    <div class="chapter-content" id="chapterContent">
+      <p>Загрузка содержания главы...</p>
+    </div>
+  </main>
+</div>
+
+<!-- Кнопка возврата -->
+<a href="MyUniverse.html" class="back-button">
+  <svg viewBox="0 0 24 24">
+    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+  </svg>
+  Вернуться назад
+</a>
+
+<!-- Футер -->
+<footer class="footer">
+  <p>© 2025 Моя Вселенная. Все права защищены.</p>
+  <p>Создано только для дойки денег.</p>
+</footer>
+
+<script>
+// Создание плавающих элементов
+function createFloatingElements() {
+  const container = document.getElementById('floatingElements');
+  const count = 5;
+
+  for (let i = 0; i < count; i++) {
+    const element = document.createElement('div');
+    element.className = 'floating-element';
+
+    const size = Math.random() * 200 + 100;
+    const posX = Math.random() * 100;
+    const posY = Math.random() * 100;
+    const delay = Math.random() * 20;
+    const duration = Math.random() * 30 + 20;
+
+    element.style.width = `${size}px`;
+    element.style.height = `${size}px`;
+    element.style.left = `${posX}%`;
+    element.style.top = `${posY}%`;
+    element.style.animationDelay = `${delay}s`;
+    element.style.animationDuration = `${duration}s`;
+
+    container.appendChild(element);
+  }
+}
+
+// Данные глав
+const chapters = {
+  1: {
+    title: "Н..начало?",
+    content: `<p>Девушка прогуливалась по ночному парку, смотрела в телефон, на экране телефона открытый мессенджер, в нём, в чате подписанном как "Папа", висело сообщение датированное 07.09.2024, - "Возвращайся домой, дочурка, я поговорил с мамой, она успокоится", девушка устало вздохнула, заблокировала экран телефона и засунула его в карман пуховика. Как вдруг она заметила коробку от холодильника, лежащую горизонтально и шевелящуюся. Она подошла и нагнулась, чтобы разглядеть кто в ней брыкался. Это был мальчик, на вид лет 8-ми, маленького роста, волосы пепельные, глаза чёрные, одет в шорты и футболку.<br>
+Девушка: "это... явно не моя проблема", - подумала девушка и пошла дальше. <br> Пройдя пару шагов вперёд девушка потупилась, и обернувшись, вслух промолвила: <br> Девушка: "ммм... ладно! Я заберу его к себе" <br> "поди погибнет ещё, один, на улице". <br> Она взвалила его маленькую тушку себе на спину и понесла к себе в квартиру.
+
+                         <br> ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤВ квартире</br>
+
+Девушка положила мальчика на свою двухспальную кровать и ушла в магазин, т.к. в холодильнике не было ничего, кроме вишнёвого сока и мяса.<br>
+
+Спустя 20 минут мальчик открыл глаза и огляделся.<br>
+Мальчик(в полудрёме): "а..? мягко.. где я?"<br>
+Он встал с тёплой кровати и огляделся. Он не был удивлён, он был благодарен судьбе за эту удачу. Первым делом он пошёл и нашёл ванную, куда в следующий миг с радостью залез и помылся. Выйдя из душа в той же одежде что и заходил, но чистый, он устремился на кухню, открыл холодильник и увидел 5 коробок вишнёвого сока по литру каждая.<br>
+Мальчик взял самую правую коробку, из неё было явно отпито, открыл её и сделал пару глотков. В следующий миг входная дверь открылась, девушка вошла в свою квартиру и увидев включенный на кухне свет, быстро прошмыгнула туда с двумя полными пакетами.<br>
+Девушка: "Привет! Вижу, ты проснулся, я-Йумильяна Денисовна, можешь звать меня Юми."<br>
+Мальчишка поставил коробку с соком на прозрачный стол.<br>
+               </p>`,
+    date: "скоро"
+  },
+  2: {
+    title: "",
+    content: `<p>Содержание главы скоро будет добавлено...</p>`,
+    date: "Скоро"
+  },
+  3: {
+    title: "",
+    content: `<p>Содержание главы скоро будет добавлено...</p>`,
+    date: "Скоро"
+  },
+  4: {
+    title: "",
+    content: `<p>Содержание главы скоро будет добавлено...</p>`,
+    date: "Скоро"
+  },
+  5: {
+    title: "",
+    content: `<p>Содержание главы скоро будет добавлено...</p>`,
+    date: "Скоро"
+  },
+  6: {
+    title: "",
+    content: `<p>Содержание главы скоро будет добавлено...</p>`,
+    date: "Скоро"
+  },
+  7: {
+    title: "",
+    content: `<p>Содержание главы скоро будет добавлено...</p>`,
+    date: "Скоро"
+  },
+  8: {
+    title: "",
+    content: `<p>Содержание главы скоро будет добавлено...</p>`,
+    date: "Скоро"
+  },
+  9: {
+    title: "",
+    content: `<p>Содержание главы скоро будет добавлено...</p>`,
+    date: "Скоро"
+  },
+  10: {
+    title: "",
+    content: `<p>Содержание главы скоро будет добавлено...</p>`,
+    date: "Скоро"
+  },
+  11: {
+    title: "",
+    content: `<p>Содержание главы скоро будет добавлено...</p>`,
+    date: "Скоро"
+  },
+  12: {
+    title: "",
+    content: `<p>Содержание главы скоро будет добавлено...</p>`,
+    date: "Скоро"
+  },
+  13: {
+    title: "",
+    content: `<p>Содержание главы скоро будет добавлено...</p>`,
+    date: "Скоро"
+  },
+  14: {
+    title: "",
+    content: `<p>Содержание главы скоро будет добавлено...</p>`,
+    date: "Скоро"
+  },
+  15: {
+    title: "",
+    content: `<p>Содержание главы скоро будет добавлено...</p>`,
+    date: "Скоро"
+  },
+  16: {
+    title: "",
+    content: `<p>Содержание главы скоро будет добавлено...</p>`,
+    date: "Скоро"
+  },
+  17: {
+    title: "",
+    content: `<p>Содержание главы скоро будет добавлено...</p>`,
+    date: "Скоро"
+  },
+  18: {
+    title: "",
+    content: `<p>Содержание главы скоро будет добавлено...</p>`,
+    date: "Скоро"
+  },
+  19: {
+    title: "",
+    content: `<p>Содержание главы скоро будет добавлено...</p>`,
+    date: "Скоро"
+  },
+  20: {
+    title: "",
+    content: `<p>Содержание главы скоро будет добавлено...</p>`,
+    date: "Скоро"
+  }
+
+};
+
+// Элементы DOM
+const chaptersList = document.getElementById('chaptersList');
+const chapterTitle = document.getElementById('chapterTitle');
+const chapterNumber = document.getElementById('chapterNumber');
+const chapterDate = document.getElementById('chapterDate');
+const chapterContent = document.getElementById('chapterContent');
+const loader = document.getElementById('loader');
+
+// Создание навигации по главам
+function createChapterNavigation() {
+  for (let i = 1; i <= 5; i++) {
+    const chapterItem = document.createElement('div');
+    chapterItem.className = 'chapter-item';
+    chapterItem.dataset.chapter = i;
+
+    chapterItem.innerHTML = `
+      <span class="chapter-number">${i}</span>
+      <span class="chapter-name">Глава ${i}</span>
+    `;
+
+    chapterItem.addEventListener('click', () => loadChapter(i));
+    chaptersList.appendChild(chapterItem);
+  }
+}
+
+// Загрузка главы
+function loadChapter(chapterId) {
+  // Показать загрузчик
+  loader.classList.add('active');
+
+  // Снять активный класс со всех глав
+  document.querySelectorAll('.chapter-item').forEach(item => {
+    item.classList.remove('active');
+  });
+
+  // Установить активный класс текущей главе
+  document.querySelector(`.chapter-item[data-chapter="${chapterId}"]`).classList.add('active');
+
+  // Имитация загрузки (в реальном приложении здесь был бы запрос к серверу)
+  setTimeout(() => {
+    const chapter = chapters[chapterId];
+
+    if (chapter) {
+      chapterTitle.textContent = chapter.title;
+      chapterNumber.textContent = `Глава ${chapterId}`;
+      chapterDate.textContent = `Дата публикации: ${chapter.date}`;
+      chapterContent.innerHTML = chapter.content;
+    } else {
+      chapterTitle.textContent = "Глава не найдена";
+      chapterContent.innerHTML = `<p>Содержание этой главы ещё не написано.</p>`;
+    }
+
+    // Скрыть загрузчик
+    loader.classList.remove('active');
+
+    // Прокрутить к началу контента
+    document.querySelector('.content-area').scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }, 500);
+}
+
+// Инициализация при загрузке страницы
+window.addEventListener('load', () => {
+  createFloatingElements();
+  createChapterNavigation();
+  loadChapter(1);
+
+  // Добавить звуковой эффект при переключении глав
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+  document.querySelectorAll('.chapter-item').forEach(item => {
+    item.addEventListener('click', function() {
+      // Простой звуковой эффект
+      try {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.frequency.value = 523.25; // Нота C5
+        oscillator.type = 'sine';
+
+        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.1);
+      } catch (e) {
+        // Игнорировать ошибки аудио
+      }
+    });
+  });
+});
+
+// Активировать аудиоконтекст при первом клике
+document.addEventListener('click', function initAudio() {
+  if (window.audioContext) {
+    window.audioContext.resume();
+  }
+  document.removeEventListener('click', initAudio);
+}, { once: true });
+</script>
+
+</body>
+</html>

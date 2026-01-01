@@ -1,0 +1,1857 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Персонажи</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg-primary: #0f1117;
+  --bg-secondary: #1a1d28;
+  --bg-card: #222633;
+  --bg-modal: rgba(15, 17, 23, 0.95);
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --accent-primary: #6366f1;
+  --accent-secondary: #8b5cf6;
+  --accent-hover: #a78bfa;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --shadow: rgba(0, 0, 0, 0.2);
+  --broken-color: #ff4757;
+  --broken-glow: rgba(255, 71, 87, 0.3);
+
+  /* Кошачьи цвета для Ходоки */
+  --cat-pink: #ff9ac8;
+  --cat-blue: #a3d9ff;
+  --cat-purple: #c8a2ff;
+  --cat-yellow: #fff9aa;
+  --cat-bg: #fff0f8;
+  --cat-glow: rgba(255, 154, 200, 0.4);
+  --cat-text: #5a4a6a;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  padding: 20px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Фоновые элементы */
+.background-glow {
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.1;
+  z-index: -1;
+  animation: float 20s ease-in-out infinite;
+}
+
+.glow-1 {
+  background: var(--accent-primary);
+  top: -200px;
+  right: -200px;
+  animation-delay: 0s;
+}
+
+.glow-2 {
+  background: var(--accent-secondary);
+  bottom: -200px;
+  left: -200px;
+  animation-delay: -10s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(-30px, 30px) scale(1.1);
+  }
+  66% {
+    transform: translate(20px, -20px) scale(0.9);
+  }
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-top: 20px;
+  animation: slideDown 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+@keyframes slideDown {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 2.5rem;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+  letter-spacing: -0.5px;
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(90deg, var(--text-primary), var(--text-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: titleGradient 8s ease infinite;
+  background-size: 200% 200%;
+}
+
+@keyframes titleGradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+h1::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+  border-radius: 2px;
+  animation: linePulse 3s ease-in-out infinite;
+}
+
+@keyframes linePulse {
+  0%, 100% {
+    width: 100px;
+    opacity: 1;
+  }
+  50% {
+    width: 120px;
+    opacity: 0.8;
+  }
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin-top: 20px;
+  opacity: 0;
+  animation: fadeIn 1s ease 0.3s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.factions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 40px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease 0.5s forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.faction-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 16px 12px;
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.faction-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.faction-btn:hover::before {
+  left: 100%;
+}
+
+.faction-btn:hover {
+  background: var(--bg-secondary);
+  border-color: var(--accent-primary);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.1);
+}
+
+.faction-btn.active {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  border-color: transparent;
+  box-shadow: 0 4px 25px rgba(99, 102, 241, 0.2);
+  animation: gentlePulse 3s ease-in-out infinite;
+}
+
+@keyframes gentlePulse {
+  0%, 100% {
+    box-shadow: 0 4px 25px rgba(99, 102, 241, 0.2);
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    box-shadow: 0 8px 35px rgba(99, 102, 241, 0.3);
+    transform: translateY(-2px) scale(1.02);
+  }
+}
+
+.characters-section {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 30px;
+  border: 1px solid var(--border-color);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease 0.7s forwards;
+}
+
+.section-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 25px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.section-title::before {
+  content: '';
+  width: 4px;
+  height: 24px;
+  background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
+  border-radius: 2px;
+  animation: colorFlow 6s ease infinite;
+}
+
+@keyframes colorFlow {
+  0%, 100% {
+    background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
+  }
+  50% {
+    background: linear-gradient(180deg, var(--accent-secondary), var(--accent-primary));
+  }
+}
+
+.characters-list {
+  display: grid;
+  gap: 12px;
+}
+
+.character-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 18px 20px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  animation: cardSlideIn 0.6s ease forwards;
+  opacity: 0;
+}
+
+@keyframes cardSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.character-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.character-card:hover::before {
+  left: 100%;
+}
+
+.character-card:hover {
+  background: rgba(99, 102, 241, 0.05);
+  border-color: var(--accent-primary);
+  transform: translateX(6px);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.1);
+}
+
+.character-name {
+  font-weight: 500;
+  font-size: 1.1rem;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.character-card:hover .character-name {
+  transform: translateX(4px);
+}
+
+.character-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  background: rgba(148, 163, 184, 0.1);
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.character-card:hover .tag {
+  transform: scale(1.05);
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 1rem;
+  margin-top: 20px;
+  padding: 12px 24px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease 0.9s forwards;
+}
+
+.back-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.back-link:hover::before {
+  left: 100%;
+}
+
+.back-link:hover {
+  color: var(--text-primary);
+  border-color: var(--text-secondary);
+  gap: 12px;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px var(--shadow);
+}
+
+/* СТАНДАРТНОЕ МОДАЛЬНОЕ ОКНО */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  animation: modalBgIn 0.4s ease forwards;
+}
+
+@keyframes modalBgIn {
+  from {
+    backdrop-filter: blur(0px);
+  }
+  to {
+    backdrop-filter: blur(10px);
+  }
+}
+
+.modal-content {
+  background: var(--bg-secondary);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 500px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  transform: translateY(30px) scale(0.95);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+}
+
+.modal-overlay.active .modal-content {
+  transform: translateY(0) scale(1);
+  animation: modalCardIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes modalCardIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  70% {
+    transform: translateY(-5px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal-header {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  padding: 25px 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+  animation: headerShine 3s ease-in-out infinite;
+}
+
+@keyframes headerShine {
+  0%, 100% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+}
+
+.modal-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: white;
+  position: relative;
+  z-index: 1;
+  animation: titleFloat 6s ease-in-out infinite;
+}
+
+@keyframes titleFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 1.2rem;
+  z-index: 2;
+  animation: rotateIn 0.8s ease forwards;
+}
+
+@keyframes rotateIn {
+  from {
+    transform: rotate(-180deg);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(0);
+    opacity: 1;
+  }
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+.modal-body {
+  padding: 30px;
+}
+
+.info-row {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+  animation: rowSlideIn 0.5s ease forwards;
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+@keyframes rowSlideIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.info-row:nth-child(1) { animation-delay: 0.1s; }
+.info-row:nth-child(2) { animation-delay: 0.2s; }
+.info-row:nth-child(3) { animation-delay: 0.3s; }
+
+.info-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+}
+
+.info-row:hover .info-label {
+  color: var(--accent-primary);
+}
+
+.info-value {
+  font-size: 1rem;
+  color: var(--text-primary);
+  line-height: 1.6;
+  transition: all 0.3s ease;
+}
+
+.info-row:hover .info-value {
+  transform: translateX(4px);
+}
+
+.navigation-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 30px;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.5s ease 0.4s forwards;
+}
+
+.nav-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px 20px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.nav-btn:hover::before {
+  left: 100%;
+}
+
+.nav-btn:hover {
+  background: var(--bg-secondary);
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(99, 102, 241, 0.2);
+}
+
+/* СТИЛЬ "ОСНОВАТЕЛЬ" - СЛОМАННЫЙ */
+.modal-content.broken {
+  background: var(--bg-primary);
+  border: 2px dashed var(--broken-color);
+  border-radius: 12px;
+  animation: brokenGlitch 3s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes brokenGlitch {
+  0%, 100% {
+    border-color: var(--broken-color);
+    box-shadow: 0 0 10px var(--broken-glow);
+  }
+  33% {
+    border-color: rgba(255, 71, 87, 0.5);
+    box-shadow: 0 0 20px var(--broken-glow);
+  }
+  66% {
+    border-color: rgba(255, 71, 87, 0.8);
+    box-shadow: 0 0 15px var(--broken-glow);
+  }
+}
+
+.modal-content.broken::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 71, 87, 0.05) 2px,
+    rgba(255, 71, 87, 0.05) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.modal-content.broken::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(90deg, transparent 50%, rgba(255, 71, 87, 0.1) 50%) 0 0/10px 10px,
+    linear-gradient(transparent 50%, rgba(255, 71, 87, 0.1) 50%) 0 0/10px 10px;
+  opacity: 0.2;
+  pointer-events: none;
+  z-index: 1;
+  animation: scanline 15s linear infinite;
+}
+
+@keyframes scanline {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 1000px;
+  }
+}
+
+.modal-content.broken .modal-header {
+  background: linear-gradient(135deg, #222, #333);
+  border-bottom: 1px dashed var(--broken-color);
+  animation: brokenHeader 5s ease-in-out infinite;
+}
+
+@keyframes brokenHeader {
+  0%, 100% {
+    background: linear-gradient(135deg, #222, #333);
+  }
+  50% {
+    background: linear-gradient(135deg, #2a2a2a, #3a3a3a);
+  }
+}
+
+.modal-content.broken .modal-title {
+  color: #999;
+  text-shadow: 0 0 5px rgba(255, 71, 87, 0.5);
+  font-family: 'Courier New', monospace;
+  animation: brokenTitle 4s ease-in-out infinite;
+  position: relative;
+}
+
+@keyframes brokenTitle {
+  0%, 100% {
+    color: #999;
+    transform: translateY(0);
+  }
+  25% {
+    color: #777;
+    transform: translateY(-1px);
+  }
+  50% {
+    color: #888;
+    transform: translateY(1px);
+  }
+  75% {
+    color: #666;
+    transform: translateY(0);
+  }
+}
+
+.modal-content.broken .modal-title::before {
+  content: '[ДАННЫЕ ПОВРЕЖДЕНЫ] ';
+  color: var(--broken-color);
+  font-size: 0.8em;
+  position: absolute;
+  top: -20px;
+  left: 0;
+  opacity: 0.7;
+  animation: warningBlink 2s step-end infinite;
+}
+
+@keyframes warningBlink {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 0.3; }
+}
+
+.modal-content.broken .modal-close {
+  background: rgba(255, 71, 87, 0.2);
+  color: #999;
+  border: 1px dashed var(--broken-color);
+  animation: brokenClose 3s ease-in-out infinite;
+}
+
+@keyframes brokenClose {
+  0%, 100% {
+    transform: rotate(0);
+  }
+  33% {
+    transform: rotate(5deg);
+  }
+  66% {
+    transform: rotate(-5deg);
+  }
+}
+
+.modal-content.broken .modal-body {
+  background: rgba(15, 17, 23, 0.8);
+}
+
+.modal-content.broken .info-row {
+  border-bottom: 1px dashed rgba(255, 71, 87, 0.3);
+  animation: brokenRow 0.8s ease forwards;
+  position: relative;
+}
+
+@keyframes brokenRow {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 0.8;
+    transform: translateX(0);
+  }
+}
+
+.modal-content.broken .info-label {
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Courier New', monospace;
+  position: relative;
+}
+
+.modal-content.broken .info-label::after {
+  content: ' █';
+  color: var(--broken-color);
+  animation: cursorBlink 1s step-end infinite;
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.modal-content.broken .info-value {
+  color: #999;
+  font-family: 'Courier New', monospace;
+  position: relative;
+  padding-left: 20px;
+  min-height: 24px;
+}
+
+.modal-content.broken .info-value::before {
+  content: '> ';
+  color: var(--broken-color);
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.modal-content.broken .info-value.faded {
+  background: linear-gradient(90deg, #999, transparent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.modal-content.broken .info-value.corrupted {
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-content.broken .info-value.corrupted::after {
+  content: '█ █ █ █ █ █ █ █';
+  position: absolute;
+  top: 0;
+  left: 20px;
+  color: var(--broken-color);
+  opacity: 0.5;
+  animation: corruptionMove 10s linear infinite;
+}
+
+@keyframes corruptionMove {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.modal-content.broken .decorative-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--broken-color), transparent);
+  margin: 30px 0;
+  animation: brokenLine 3s ease-in-out infinite;
+}
+
+@keyframes brokenLine {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.modal-content.broken .nav-btn {
+  background: rgba(34, 38, 51, 0.5);
+  border: 1px dashed rgba(255, 71, 87, 0.3);
+  color: #777;
+  font-family: 'Courier New', monospace;
+  position: relative;
+}
+
+.modal-content.broken .nav-btn:hover {
+  background: rgba(34, 38, 51, 0.8);
+  border-color: var(--broken-color);
+  color: #999;
+  transform: none;
+  box-shadow: 0 0 10px var(--broken-glow);
+}
+
+.modal-content.broken .nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.modal-content.broken .nav-btn:disabled:hover {
+  background: rgba(34, 38, 51, 0.5);
+  border-color: rgba(255, 71, 87, 0.3);
+  box-shadow: none;
+}
+
+/* Специальный стиль для Основателя */
+.modal-content.broken .modal-title.founder-title {
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 71, 87, 0.5);
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.modal-content.broken .modal-title.founder-title::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border: 1px solid rgba(255, 71, 87, 0.2);
+  z-index: -1;
+}
+
+.modal-content.broken .modal-title.founder-title::after {
+  content: 'ACCESS DENIED';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(255, 71, 87, 0.1);
+  font-size: 3rem;
+  white-space: nowrap;
+  z-index: -1;
+  animation: deniedFloat 10s linear infinite;
+}
+
+@keyframes deniedFloat {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* КОТИКОВЫЙ СТИЛЬ ДЛЯ ХОДОКИ */
+.modal-content.kawaii {
+  background: linear-gradient(135deg, #fff0f8, #f0f8ff);
+  border: 3px solid var(--cat-pink);
+  border-radius: 25px;
+  animation: catGlow 3s ease-in-out infinite, bounce 8s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 40px var(--cat-glow);
+}
+
+@keyframes catGlow {
+  0%, 100% {
+    border-color: var(--cat-pink);
+    box-shadow: 0 0 30px var(--cat-glow);
+  }
+  33% {
+    border-color: var(--cat-blue);
+    box-shadow: 0 0 40px rgba(163, 217, 255, 0.5);
+  }
+  66% {
+    border-color: var(--cat-purple);
+    box-shadow: 0 0 40px rgba(200, 162, 255, 0.5);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  3% {
+    transform: translateY(-3px) scale(1.01);
+  }
+  6% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal-content.kawaii::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255, 154, 200, 0.1) 2%, transparent 4%),
+    radial-gradient(circle at 80% 70%, rgba(163, 217, 255, 0.1) 3%, transparent 5%),
+    radial-gradient(circle at 40% 80%, rgba(200, 162, 255, 0.1) 2%, transparent 4%);
+  background-size: 100px 100px, 150px 150px, 120px 120px;
+  animation: catPattern 20s linear infinite;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@keyframes catPattern {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate(100px, 50px) rotate(360deg);
+  }
+}
+
+.modal-content.kawaii .modal-header {
+  background: linear-gradient(135deg, #ffb6d9, #a3d9ff);
+  border-bottom: 2px dotted var(--cat-pink);
+  position: relative;
+  z-index: 2;
+}
+
+.modal-content.kawaii .modal-title {
+  color: #ff66a3;
+  text-shadow:
+    1px 1px 0px #ffccff,
+    2px 2px 0px rgba(255, 182, 217, 0.5);
+  animation: catTitle 3s ease-in-out infinite;
+  letter-spacing: 1px;
+  font-size: 2rem;
+}
+
+@keyframes catTitle {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+    text-shadow:
+      1px 1px 0px #ffccff,
+      2px 2px 0px rgba(255, 182, 217, 0.5);
+  }
+  25% {
+    transform: translateY(-2px) rotate(0.5deg);
+    text-shadow:
+      1px 2px 0px #ffccff,
+      2px 3px 0px rgba(255, 182, 217, 0.5);
+  }
+  75% {
+    transform: translateY(1px) rotate(-0.5deg);
+    text-shadow:
+      1px 0px 0px #ffccff,
+      2px 1px 0px rgba(255, 182, 217, 0.5);
+  }
+}
+
+.modal-content.kawaii .modal-title::before {
+  content: '⋆ ';
+  font-size: 1.2em;
+  margin-right: 10px;
+  animation: starTwinkle 2s ease-in-out infinite;
+  color: var(--cat-yellow);
+}
+
+@keyframes starTwinkle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+.modal-content.kawaii .modal-close {
+  background: rgba(255, 182, 217, 0.3);
+  color: #ff66a3;
+  border: 2px solid #ff66a3;
+  animation: catClose 2s ease-in-out infinite;
+  position: relative;
+  z-index: 3;
+}
+
+@keyframes catClose {
+  0%, 100% {
+    transform: rotate(0) scale(1);
+    box-shadow: 0 0 5px var(--cat-pink);
+  }
+  33% {
+    transform: rotate(2deg) scale(1.05);
+    box-shadow: 0 0 8px var(--cat-blue);
+  }
+  66% {
+    transform: rotate(-2deg) scale(1.05);
+    box-shadow: 0 0 8px var(--cat-purple);
+  }
+}
+
+.modal-content.kawaii .modal-body {
+  background: rgba(255, 255, 255, 0.98);
+  position: relative;
+  z-index: 2;
+}
+
+.modal-content.kawaii .info-row {
+  border-bottom: 1px dashed var(--cat-blue);
+  animation: catRow 0.8s ease forwards;
+  position: relative;
+  padding-left: 25px;
+}
+
+@keyframes catRow {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.modal-content.kawaii .info-row::before {
+  content: '⋆';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: var(--cat-pink);
+  opacity: 0.7;
+  animation: pawPrint 3s ease-in-out infinite;
+}
+
+@keyframes pawPrint {
+  0%, 100% {
+    opacity: 0.7;
+    transform: translateY(-50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.2);
+  }
+}
+
+.modal-content.kawaii .info-label {
+  color: #ff66a3;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 600;
+  font-size: 1rem;
+  position: relative;
+  padding-left: 15px;
+}
+
+.modal-content.kawaii .info-label::before {
+  content: '≽^•⩊•^≼';
+  position: absolute;
+  left: 0;
+  top: -5px;
+  font-size: 0.8rem;
+  animation: catFace 3s ease-in-out infinite;
+}
+
+@keyframes catFace {
+  0%, 100% {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+  25% {
+    opacity: 0.8;
+    transform: rotate(-5deg);
+  }
+  75% {
+    opacity: 0.8;
+    transform: rotate(5deg);
+  }
+}
+
+.modal-content.kawaii .info-value {
+  color: var(--cat-text);
+  font-size: 1rem;
+  line-height: 1.7;
+  position: relative;
+  padding-left: 20px;
+}
+
+.modal-content.kawaii .decorative-line {
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent,
+    var(--cat-pink) 20%,
+    var(--cat-blue) 50%,
+    var(--cat-purple) 80%,
+    transparent
+  );
+  margin: 30px 0;
+  border-radius: 2px;
+  animation: rainbowLine 4s linear infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes rainbowLine {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: 200px 0;
+  }
+}
+
+.modal-content.kawaii .nav-btn {
+  background: linear-gradient(135deg, #ffe6f2, #e6f7ff);
+  border: 2px solid var(--cat-pink);
+  color: #ff66a3;
+  font-weight: 600;
+  position: relative;
+  z-index: 2;
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.modal-content.kawaii .nav-btn:hover {
+  background: linear-gradient(135deg, #ffd9ec, #d9f0ff);
+  border-color: #ff3399;
+  color: #ff3399;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 102, 163, 0.3);
+}
+
+/* Парящие элементы для котикового стиля */
+.floating-elements {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cat-element {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: var(--cat-pink);
+  border-radius: 50%;
+  opacity: 0;
+  animation: floatElement 15s linear infinite;
+  filter: blur(2px);
+}
+
+@keyframes floatElement {
+  0% {
+    transform: translateY(100vh) rotate(0deg) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.3;
+    transform: translateY(80vh) rotate(180deg) scale(1);
+  }
+  20% {
+    opacity: 0.4;
+  }
+  80% {
+    opacity: 0.4;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-100px) rotate(720deg) scale(0);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .factions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .characters-section {
+    padding: 20px;
+  }
+
+  .modal-body {
+    padding: 20px;
+  }
+
+  .modal-content.kawaii .modal-title {
+    font-size: 1.6rem;
+  }
+
+  .modal-content.broken .modal-title.founder-title::after {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .factions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-header {
+    padding: 20px;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+  }
+
+  .modal-content.broken .modal-title.founder-title::after {
+    font-size: 1.5rem;
+  }
+}
+
+/* Парящие частицы */
+.floating-dots {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dot {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--text-secondary);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: floatDot 15s linear infinite;
+}
+
+@keyframes floatDot {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.3;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Фоновые элементы -->
+<div class="background-glow glow-1"></div>
+<div class="background-glow glow-2"></div>
+<div class="floating-dots" id="floatingDots"></div>
+
+<div class="container">
+  <div class="header">
+    <h1>Персонажи</h1>
+    <div class="subtitle">Исследуйте вселенную через её обитателей</div>
+  </div>
+
+  <div class="factions-grid">
+    <button class="faction-btn active" data-faction="objects">Объекты</button>
+    <button class="faction-btn" data-faction="humans">Люди</button>
+    <button class="faction-btn" data-faction="orgN">Орг. N</button>
+    <button class="faction-btn" data-faction="orgA">Орг. A</button>
+    <button class="faction-btn" data-faction="orgDNA">Орг. ДНК</button>
+    <button class="faction-btn" data-faction="abs">Абсолюты</button>
+  </div>
+
+  <div class="characters-section">
+    <div class="section-title">Объекты</div>
+    <div class="characters-list" id="charactersList"></div>
+  </div>
+
+  <a href="MyUniverse.html" class="back-link">← Вернуться назад</a>
+</div>
+
+<div class="modal-overlay" id="characterModal">
+  <div class="modal-content" id="modalContent">
+    <div class="floating-elements" id="floatingElements"></div>
+    <div class="modal-header">
+      <div class="modal-title" id="characterName">Имя Персонажа</div>
+      <button class="modal-close" id="closeModal">×</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="info-row">
+        <div class="info-label">Полное имя</div>
+        <div class="info-value" id="characterFIO">—</div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-label">Внешность</div>
+        <div class="info-value" id="characterKOB">—</div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-label">Описание</div>
+        <div class="info-value" id="characterDesc">—</div>
+      </div>
+
+      <div class="decorative-line"></div>
+
+      <div class="navigation-buttons">
+        <button class="nav-btn" id="prevCharacter">← Предыдущий</button>
+        <button class="nav-btn" id="nextCharacter">Следующий →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ======================== РЕАЛЬНЫЕ ДАННЫЕ ПЕРСОНАЖЕЙ ========================
+
+const data = {
+  objects: [
+    {
+      name: "Демиург (Объект 1)",
+      FIO: "ФИО: Демиург",
+      KOB: "КОВ: ",
+      description: "Описание:",
+      tags: ["Объект"]
+    },
+    {
+      name: "Морованг (Объект 2)",
+      FIO: "ФИО: Морованг",
+      KOB: "КОВ:",
+      description: "Описание:",
+      tags: ["Объект"]
+    },
+    {
+      name: "Мангецу (Объект 3)",
+      FIO: "ФИО: Товайрайто Мангецу Тихоновна",
+      KOB: "КОВ: Белая кожа, бело-серые волосы, носит разные вещи, но чаще её можно увидеть в растянутом оборванном платье, обуви, явно реплика на берцы или ньюроки, и чёрной юбке",
+      description: "Описание: Рост 163 см, владеет огнестрельным оружием в совершенстве (как демон огнестрел, только преисполненный до божества)",
+      tags: ["Объект", "Орг.ДНК"]
+    },
+    {
+      name: "Варай (Объект 4)",
+      FIO: "ФИО: Варай",
+      KOB: "КОВ:",
+      description: "Описание:",
+      tags: ["Объект"]
+    },
+    {
+      name: "Ходока (Объект 5)",
+      FIO: "Ходока",
+      KOB: "Пепельные волосы, которые ближе к кончикам чернеют, не имеет растительности на теле, пальцы тонкие, преимущественно носит белую толстовку с нарисованными котиками и чёрные шорты.",
+      description: "Полного имени не имеет, мальчик ростом 148 см, выглядит как ребёнок, полных человеческих лет - 14, является 5 объектом, владеет магией антиматерии, сам создан из антиматерии одним из абсолютных существ под корневым именем <конец>.",
+      tags: ["Объект"],
+      kawaii: true
+    },
+    {
+      name: "(Объект 6)",
+      FIO: "ФИО:",
+      KOB: "КОВ:",
+      description: "Описание:",
+      tags: ["Объект"]
+    },
+  ],
+  humans: [
+    {
+      name: "Йумильяна",
+      FIO: "ФИО: Сангрель Йумильяна Денисовна",
+      KOB: "КОВ: Кожа белоснежная, чёрные волосы, глаза голубо-карие, чаще всего носит кофту под которой рубашка и обычные штаны, образ похож на школьную форму, причёска - боб-каре с чёлкой",
+      description: "Описание: Для друзей-Юми, девушка ростом 171 см, выглядит как девушка возрастом 20-25 лет, полных человеческих лет - 17, является человеком, сама магией не владеет, но только она может пользоваться оружием под названием осквернитель",
+      tags: ["Человек"]
+    },
+    {
+      name: "Аксиома",
+      FIO: "ФИО: Винер Аксиома Денисовна",
+      KOB: "КОВ: Белая кожа, миловидное лицо, короткая стрижка, каштановые/коричневые волосы, оранжевые глаза, на волосах множество украшений (бантики, заколки и т.п.) обычно одета в рубашку, под которой водолазка, и синюю юбку",
+      description: "Описание: Обычный человек, человек-обычный",
+      tags: ["Человек"]
+    },
+  ],
+  orgN: [
+    {
+      name: "Маврэмор",
+      FIO: "ФИО: ",
+      KOB: "КОВ:",
+      description: "Описание:",
+      tags: ["Орг.N"]
+    },
+    {
+      name: "ЧЕГО?",
+      FIO: "ФИО:",
+      KOB: "КОВ:",
+      description: "Описание:",
+      tags: ["Орг.N"]
+    },
+  ],
+  orgA: [
+    {
+      name: "Основатель",
+      FIO: "ФИО: [ДАННЫЕ УДАЛЕНЫ]",
+      KOB: "КОВ: [ИНФОРМАЦИЯ СТЕРТА]",
+      description: "[ДОСТУП ЗАПРЕЩЕН. УРОВЕНЬ ДОСТУПА: ОМЕГА]",
+      tags: ["Орг.A"],
+      broken: true,
+      special: "founder"
+    },
+    {
+      name: "Аферта",
+      FIO: "ФИО: Измайлова Аферта Сергеевна",
+      KOB: "КОВ:",
+      description: "Описание:",
+      tags: ["Орг.A"]
+    },
+  ],
+  orgDNA: [
+    {
+      name: "Мангецу (Директор)",
+      FIO: "ФИО: Товайрайто Мангецу Тихоновна",
+      KOB: "КОВ: Белая кожа, бело-серые волосы, носит разные вещи, но чаще её можно увидеть в растянутом оборванном платье, обуви, явно реплика на берцы или ньюроки, и чёрной юбке",
+      description: "Описание: Рост 163 см, владеет огнестрельным оружием в совершенстве (как демон огнестрел, только преисполненный до божества)",
+      tags: ["Орг.ДНК", "Объект"]
+    },
+    {
+      name: "Перси",
+      FIO: "ФИО:",
+      KOB: "КОВ:",
+      description: "Описание:",
+      tags: ["Орг.ДНК"]
+    },
+  ],
+  abs: [
+    {
+      name: "(Начало)",
+      FIO: "ФИО:",
+      KOB: "КОВ:",
+      description: "Описание:",
+      tags: ["Абсолют"]
+    },
+    {
+      name: "(Идеал)",
+      FIO: "ФИО:",
+      KOB: "КОВ:",
+      description: "Описание:",
+      tags: ["Абсолют"]
+    },
+    {
+      name: "(Конец)",
+      FIO: "ФИО:",
+      KOB: "КОВ:",
+      description: "Описание:",
+      tags: ["Абсолют"]
+    },
+  ]
+};
+
+// Создание парящих точек
+function createFloatingDots() {
+  const container = document.getElementById('floatingDots');
+  const dotCount = 20;
+
+  for (let i = 0; i < dotCount; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'dot';
+
+    const size = Math.random() * 2 + 1;
+    const posX = Math.random() * 100;
+    const delay = Math.random() * 15;
+    const duration = Math.random() * 10 + 15;
+
+    dot.style.width = `${size}px`;
+    dot.style.height = `${size}px`;
+    dot.style.left = `${posX}%`;
+    dot.style.animationDelay = `${delay}s`;
+    dot.style.animationDuration = `${duration}s`;
+    dot.style.opacity = Math.random() * 0.3 + 0.1;
+
+    container.appendChild(dot);
+  }
+}
+
+// Создание плавающих элементов для котикового стиля
+function createFloatingElements() {
+  const container = document.getElementById('floatingElements');
+  if (!container) return;
+
+  container.innerHTML = '';
+  const elementCount = 8;
+
+  for (let i = 0; i < elementCount; i++) {
+    const element = document.createElement('div');
+    element.className = 'cat-element';
+
+    const colors = ['#ff9ac8', '#a3d9ff', '#c8a2ff', '#fff9aa', '#ffccff'];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const size = Math.random() * 15 + 10;
+    const posX = Math.random() * 100;
+    const delay = Math.random() * 15;
+    const duration = Math.random() * 10 + 20;
+
+    element.style.background = color;
+    element.style.width = `${size}px`;
+    element.style.height = `${size}px`;
+    element.style.left = `${posX}%`;
+    element.style.borderRadius = '50%';
+    element.style.animationDelay = `${delay}s`;
+    element.style.animationDuration = `${duration}s`;
+
+    container.appendChild(element);
+  }
+}
+
+// Элементы DOM
+const charactersList = document.getElementById('charactersList');
+const characterModal = document.getElementById('characterModal');
+const modalContent = document.getElementById('modalContent');
+const characterName = document.getElementById('characterName');
+const characterFIO = document.getElementById('characterFIO');
+const characterKOB = document.getElementById('characterKOB');
+const characterDesc = document.getElementById('characterDesc');
+const closeModalBtn = document.getElementById('closeModal');
+const prevBtn = document.getElementById('prevCharacter');
+const nextBtn = document.getElementById('nextCharacter');
+const factionButtons = document.querySelectorAll('.faction-btn');
+
+// Глобальные переменные для навигации
+let currentFaction = 'objects';
+let currentCharacterIndex = 0;
+let currentCharacters = [];
+
+// Функция для отображения списка персонажей
+function renderCharacters(faction) {
+  charactersList.innerHTML = '';
+  const characters = data[faction];
+
+  characters.forEach((character, index) => {
+    const characterCard = document.createElement('div');
+    characterCard.className = 'character-card';
+
+    // Анимация появления с задержкой
+    characterCard.style.animationDelay = `${index * 0.1}s`;
+
+    // Отображаем теги из массива tags
+    const tagsHtml = character.tags && character.tags.length > 0
+      ? character.tags.map(tag => `<span class="tag">${tag}</span>`).join('')
+      : '<span class="tag">Без тегов</span>';
+
+    characterCard.innerHTML = `
+      <div class="character-name">${character.name}</div>
+      <div class="character-tags">
+        ${tagsHtml}
+      </div>
+    `;
+
+    characterCard.addEventListener('click', () => openCharacterModal(faction, index));
+
+    charactersList.appendChild(characterCard);
+  });
+
+  // Обновляем активную кнопку фракции
+  factionButtons.forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.dataset.faction === faction) {
+      btn.classList.add('active');
+    }
+  });
+
+  // Обновляем заголовок секции
+  document.querySelector('.section-title').textContent = getFactionTitle(faction);
+}
+
+// Функция для получения заголовка фракции
+function getFactionTitle(faction) {
+  const titles = {
+    'objects': 'Объекты',
+    'humans': 'Обычные люди',
+    'orgN': 'Организация N',
+    'orgA': 'Организация A',
+    'orgDNA': 'Организация ДНК',
+    'abs': 'Абсолюты'
+  };
+  return titles[faction] || faction;
+}
+
+// Функция для открытия модального окна
+function openCharacterModal(faction, index) {
+  currentFaction = faction;
+  currentCharacterIndex = index;
+  currentCharacters = data[faction];
+
+  updateModalContent();
+  characterModal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  // Анимация строк с задержкой
+  const rows = document.querySelectorAll('.info-row');
+  rows.forEach((row, i) => {
+    row.style.animationDelay = `${i * 0.1}s`;
+    row.style.opacity = '0';
+    row.style.transform = 'translateX(-20px)';
+    setTimeout(() => {
+      row.style.animation = 'rowSlideIn 0.5s ease forwards';
+    }, 50);
+  });
+}
+
+// Функция для обновления содержимого модального окна
+function updateModalContent() {
+  if (currentCharacters.length === 0) return;
+
+  const character = currentCharacters[currentCharacterIndex];
+
+  // Сбрасываем стили
+  modalContent.classList.remove('broken', 'kawaii');
+  characterName.classList.remove('founder-title');
+  characterFIO.classList.remove('faded', 'corrupted');
+  characterKOB.classList.remove('faded', 'corrupted');
+  characterDesc.classList.remove('faded', 'corrupted');
+
+  // Если это "Основатель", применяем сломанный стиль
+  if (character.broken) {
+    modalContent.classList.add('broken');
+
+    // Особый заголовок для Основателя
+    if (character.special === 'founder') {
+      characterName.classList.add('founder-title');
+    }
+
+    // Применяем эффекты к данным
+    if (character.FIO && character.FIO.includes('[ДАННЫЕ')) {
+      characterFIO.classList.add('faded');
+    }
+    if (character.KOB && character.KOB.includes('[ИНФОРМАЦИЯ')) {
+      characterKOB.classList.add('corrupted');
+    }
+    if (character.description && character.description.includes('[ДОСТУП')) {
+      characterDesc.classList.add('faded');
+    }
+  }
+
+  // Если это "Ходока", применяем милый кошачий стиль
+  if (character.kawaii) {
+    modalContent.classList.add('kawaii');
+    createFloatingElements();
+  }
+
+  // Показываем реальные данные
+  characterName.textContent = character.name;
+  characterFIO.textContent = character.FIO || '—';
+  characterKOB.textContent = character.KOB || '—';
+  characterDesc.textContent = character.description || '—';
+
+  // Обновляем состояние кнопок навигации
+  prevBtn.disabled = currentCharacters.length <= 1;
+  nextBtn.disabled = currentCharacters.length <= 1;
+}
+
+// Функция для навигации по персонажам
+function navigateCharacter(direction) {
+  if (currentCharacters.length <= 1) return;
+
+  currentCharacterIndex = (currentCharacterIndex + direction + currentCharacters.length) % currentCharacters.length;
+  updateModalContent();
+
+  // Анимация смены контента
+  const modalTitle = document.getElementById('characterName');
+  modalTitle.style.animation = 'none';
+  setTimeout(() => {
+    const character = currentCharacters[currentCharacterIndex];
+    modalTitle.style.animation = character.kawaii ? 'catTitle 3s ease-in-out infinite' :
+                                 character.broken ? 'brokenTitle 4s ease-in-out infinite' :
+                                 'titleFloat 6s ease-in-out infinite';
+  }, 10);
+}
+
+// Инициализация событий
+factionButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const faction = button.dataset.faction;
+    currentFaction = faction;
+    renderCharacters(faction);
+  });
+});
+
+closeModalBtn.addEventListener('click', () => {
+  characterModal.classList.remove('active');
+  document.body.style.overflow = 'auto';
+});
+
+// Закрытие модального окна по клику на оверлей
+characterModal.addEventListener('click', (e) => {
+  if (e.target === characterModal) {
+    characterModal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+});
+
+// Навигация по персонажам
+prevBtn.addEventListener('click', () => navigateCharacter(-1));
+nextBtn.addEventListener('click', () => navigateCharacter(1));
+
+// Навигация с клавиатуры
+document.addEventListener('keydown', (e) => {
+  if (characterModal.classList.contains('active')) {
+    if (e.key === 'Escape') {
+      characterModal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    } else if (e.key === 'ArrowLeft') {
+      navigateCharacter(-1);
+    } else if (e.key === 'ArrowRight') {
+      navigateCharacter(1);
+    }
+  }
+});
+
+// Инициализация при загрузке
+document.addEventListener('DOMContentLoaded', () => {
+  createFloatingDots();
+  renderCharacters('objects');
+});
+</script>
+
+</body>
+</html>

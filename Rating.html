@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Рейтинги персонажей</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    background: #0a0a0a;
+    color: #ccc;
+    line-height: 1.5;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Темный фон с градиентом */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(30, 0, 60, 0.3) 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(0, 30, 60, 0.2) 0%, transparent 40%),
+      linear-gradient(135deg, #000000, #0a0a0a, #1a1a1a);
+    z-index: -2;
+  }
+
+  /* Текстура */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23000000' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+    z-index: -1;
+    opacity: 0.3;
+  }
+
+  header {
+    padding: 25px 15px;
+    text-align: center;
+    background: rgba(10, 10, 10, 0.95);
+    border-bottom: 1px solid #222;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.8);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+  }
+
+  header h1 {
+    margin: 0;
+    font-size: clamp(1.8rem, 6vw, 2.2em);
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+  }
+
+  .main {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 30px;
+    width: 100%;
+    animation: fadeIn 0.8s ease-out 0.3s both;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .toggle-btn {
+    background: rgba(30, 30, 30, 0.9);
+    color: #aaa;
+    border: 2px solid #333;
+    padding: 16px 20px;
+    border-radius: 10px;
+    font-size: clamp(1rem, 3vw, 1.1em);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 600;
+    flex: 1;
+    min-width: 120px;
+    max-width: 180px;
+    min-height: 55px;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.5px;
+  }
+
+  .toggle-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+    transition: left 0.6s ease;
+  }
+
+  .toggle-btn:hover::before {
+    left: 100%;
+  }
+
+  .toggle-btn:hover {
+    color: #fff;
+    border-color: #444;
+    background: rgba(40, 40, 40, 0.9);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
+  }
+
+  .toggle-btn.active {
+    background: linear-gradient(135deg, rgba(139, 0, 0, 0.3), rgba(100, 0, 0, 0.3));
+    color: #fff;
+    border-color: #8b0000;
+    box-shadow: 0 0 25px rgba(139, 0, 0, 0.4);
+    animation: activeGlow 3s ease-in-out infinite;
+  }
+
+  @keyframes activeGlow {
+    0%, 100% {
+      box-shadow: 0 0 25px rgba(139, 0, 0, 0.4);
+      border-color: #8b0000;
+    }
+    50% {
+      box-shadow: 0 0 35px rgba(139, 0, 0, 0.7);
+      border-color: #b22222;
+    }
+  }
+
+  .sections-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .section {
+    display: none;
+    background: rgba(20, 20, 20, 0.9);
+    padding: 25px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+    border: 1px solid #222;
+    animation: sectionSlide 0.5s ease-out;
+    backdrop-filter: blur(5px);
+  }
+
+  @keyframes sectionSlide {
+    from {
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .section.active {
+    display: block;
+  }
+
+  .section h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: clamp(1.4rem, 4vw, 1.7em);
+    color: #fff;
+    border-bottom: 2px solid #333;
+    padding-bottom: 12px;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 1px;
+    position: relative;
+  }
+
+  .section h2::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #8b0000, transparent);
+  }
+
+  .ranking {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .ranking li {
+    padding: 15px 15px;
+    font-size: clamp(1.1rem, 3vw, 1.2em);
+    border-bottom: 1px solid #2a2a2a;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    min-height: 55px;
+    animation: itemSlide 0.5s ease both;
+    color: #ddd;
+  }
+
+  @keyframes itemSlide {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .ranking li:hover {
+    background-color: rgba(50, 50, 50, 0.3);
+    transform: translateX(10px);
+    border-left: 3px solid #444;
+    padding-left: 20px;
+  }
+
+  .ranking li:last-child {
+    border-bottom: none;
+  }
+
+  .first-place {
+    font-weight: 700;
+    color: #ffd700;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), transparent);
+    border-left: 3px solid #ffd700 !important;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  }
+
+  .second-place {
+    font-weight: 600;
+    color: #c0c0c0;
+    background: linear-gradient(135deg, rgba(192, 192, 192, 0.05), transparent);
+    border-left: 3px solid #c0c0c0 !important;
+  }
+
+  .third-place {
+    font-weight: 600;
+    color: #cd7f32;
+    background: linear-gradient(135deg, rgba(205, 127, 50, 0.05), transparent);
+    border-left: 3px solid #cd7f32 !important;
+  }
+
+  .back-button {
+    display: inline-block;
+    padding: 16px 28px;
+    margin: 30px 0 10px;
+    background: rgba(30, 30, 30, 0.9);
+    color: #ddd;
+    font-size: clamp(1rem, 3.5vw, 1.1em);
+    border: 2px solid #333;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 600;
+    text-align: center;
+    width: 100%;
+    max-width: 320px;
+    min-height: 55px;
+    position: relative;
+    overflow: hidden;
+    animation: buttonAppear 1s ease-out 0.5s both;
+    letter-spacing: 0.5px;
+  }
+
+  .back-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+    transition: left 0.6s ease;
+  }
+
+  .back-button:hover::before {
+    left: 100%;
+  }
+
+  .back-button:hover {
+    color: #fff;
+    background: rgba(40, 40, 40, 0.9);
+    border-color: #444;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Задержки анимации для элементов списка */
+  .ranking li:nth-child(1) { animation-delay: 0.1s; }
+  .ranking li:nth-child(2) { animation-delay: 0.2s; }
+  .ranking li:nth-child(3) { animation-delay: 0.3s; }
+  .ranking li:nth-child(4) { animation-delay: 0.4s; }
+  .ranking li:nth-child(5) { animation-delay: 0.5s; }
+  .ranking li:nth-child(6) { animation-delay: 0.6s; }
+  .ranking li:nth-child(7) { animation-delay: 0.7s; }
+  .ranking li:nth-child(8) { animation-delay: 0.8s; }
+  .ranking li:nth-child(9) { animation-delay: 0.9s; }
+  .ranking li:nth-child(10) { animation-delay: 1s; }
+
+  /* Мобильная адаптация */
+  @media (max-width: 768px) {
+    .main {
+      margin: 20px auto;
+      padding: 15px;
+    }
+
+    .buttons-container {
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .toggle-btn {
+      padding: 14px 16px;
+      min-width: 100px;
+      max-width: 140px;
+      min-height: 50px;
+    }
+
+    .sections-container {
+      gap: 20px;
+    }
+
+    .section {
+      padding: 20px;
+      max-width: 100%;
+    }
+
+    .ranking li {
+      padding: 13px 15px;
+      min-height: 50px;
+    }
+
+    .back-button {
+      margin: 25px 0 10px;
+      padding: 14px 24px;
+      min-height: 50px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    header {
+      padding: 20px 10px;
+    }
+
+    .main {
+      padding: 10px;
+    }
+
+    .buttons-container {
+      gap: 6px;
+    }
+
+    .toggle-btn {
+      min-width: 90px;
+      max-width: 110px;
+      padding: 12px 14px;
+      font-size: 0.95rem;
+      min-height: 45px;
+    }
+
+    .section {
+      padding: 18px;
+    }
+
+    .ranking li {
+      padding: 12px 14px;
+      min-height: 45px;
+      font-size: 1.05rem;
+    }
+
+    .back-button {
+      padding: 14px 20px;
+      min-height: 50px;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .toggle-btn {
+      min-width: 85px;
+      max-width: 100px;
+      padding: 10px 12px;
+      font-size: 0.9rem;
+    }
+
+    .section {
+      padding: 15px;
+    }
+
+    .ranking li {
+      padding: 10px 12px;
+      font-size: 1rem;
+    }
+  }
+
+  /* Отключение ховеров для тач-устройств */
+  @media (hover: none) {
+    .toggle-btn:hover {
+      transform: none;
+    }
+
+    .ranking li:hover {
+      transform: none;
+      background-color: transparent;
+    }
+
+    .back-button:hover {
+      transform: none;
+    }
+
+    .toggle-btn:active,
+    .ranking li:active {
+      opacity: 0.8;
+    }
+  }
+
+  a, button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .toggle-btn:focus,
+  .back-button:focus {
+    outline: 2px solid #555;
+    outline-offset: 2px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Рейтинги персонажей</h1>
+</header>
+
+<div class="main">
+  <div class="buttons-container">
+    <button class="toggle-btn active" data-target="strength">Сила</button>
+    <button class="toggle-btn" data-target="speed">Скорость</button>
+    <button class="toggle-btn" data-target="intellect">Интеллект</button>
+    <button class="toggle-btn" data-target="creativity">Креативность</button>
+    <button class="toggle-btn" data-target="stamina">Выносливость</button>
+  </div>
+
+  <div class="sections-container">
+    <div id="strength" class="section active">
+      <h2>Сила</h2>
+      <ul class="ranking">
+        <li class="first-place">Кто-то</li>
+        <li class="second-place">Кто-то</li>
+        <li class="third-place">Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+      </ul>
+    </div>
+
+    <div id="speed" class="section">
+      <h2>Скорость</h2>
+      <ul class="ranking">
+        <li class="first-place">Кто-то</li>
+        <li class="second-place">Кто-то</li>
+        <li class="third-place">Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+      </ul>
+    </div>
+
+    <div id="intellect" class="section">
+      <h2>Интеллект</h2>
+      <ul class="ranking">
+        <li class="first-place">Кто-то</li>
+        <li class="second-place">Кто-то</li>
+        <li class="third-place">Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+      </ul>
+    </div>
+
+    <div id="creativity" class="section">
+      <h2>Креативность</h2>
+      <ul class="ranking">
+        <li class="first-place">Кто-то</li>
+        <li class="second-place">Кто-то</li>
+        <li class="third-place">Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+      </ul>
+    </div>
+
+    <div id="stamina" class="section">
+      <h2>Выносливость</h2>
+      <ul class="ranking">
+        <li class="first-place">Кто-то</li>
+        <li class="second-place">Кто-то</li>
+        <li class="third-place">Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+        <li>Кто-то</li>
+      </ul>
+    </div>
+  </div>
+
+  <a href="MyUniverse.html" class="back-button">Вернуться назад</a>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var buttons = document.querySelectorAll('.toggle-btn');
+    var sections = document.querySelectorAll('.section');
+
+    function switchSection(targetId) {
+      // Скрываем все секции
+      sections.forEach(function(section) {
+        section.classList.remove('active');
+      });
+
+      // Убираем активный класс со всех кнопок
+      buttons.forEach(function(button) {
+        button.classList.remove('active');
+      });
+
+      // Показываем нужную секцию
+      var targetSection = document.getElementById(targetId);
+      if (targetSection) {
+        targetSection.classList.add('active');
+      }
+
+      // Активируем нужную кнопку
+      var activeButton = document.querySelector('.toggle-btn[data-target="' + targetId + '"]');
+      if (activeButton) {
+        activeButton.classList.add('active');
+      }
+    }
+
+    // Добавляем обработчики для кнопок
+    buttons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        var targetId = this.getAttribute('data-target');
+        switchSection(targetId);
+      });
+    });
+
+    // Обработчик для кнопки назад
+    document.querySelector('.back-button').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.history.back();
+    });
+
+    // Анимация для элементов списка при переключении
+    function animateListItems() {
+      var activeSection = document.querySelector('.section.active');
+      if (activeSection) {
+        var listItems = activeSection.querySelectorAll('.ranking li');
+        listItems.forEach(function(item, index) {
+          item.style.animation = 'none';
+          setTimeout(function() {
+            item.style.animation = `itemSlide 0.5s ease ${index * 0.1}s both`;
+          }, 10);
+        });
+      }
+    }
+
+    // Вызываем анимацию при переключении секций
+    buttons.forEach(function(button) {
+      button.addEventListener('click', animateListItems);
+    });
+
+    // Инициализация анимации для первой секции
+    animateListItems();
+  });
+</script>
+
+</body>
+</html>
